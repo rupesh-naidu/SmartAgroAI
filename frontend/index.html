@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>SmartAgroAI</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#e8f5e9;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.container{
+background:white;
+padding:25px;
+width:420px;
+border-radius:10px;
+box-shadow:0px 4px 12px rgba(0,0,0,0.2);
+}
+
+h2{
+text-align:center;
+color:#2e7d32;
+}
+
+.section{
+margin-top:15px;
+}
+
+label{
+font-size:14px;
+font-weight:bold;
+display:block;
+margin-top:8px;
+}
+
+input{
+width:100%;
+padding:8px;
+margin-top:3px;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:10px;
+margin-top:20px;
+background:#2e7d32;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+background:#1b5e20;
+}
+
+.result{
+margin-top:20px;
+background:#f1f8e9;
+padding:10px;
+border-radius:6px;
+display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>🌾 SmartAgroAI</h2>
+
+<div class="section">
+
+<h3>Rainfall Inputs</h3>
+
+<label>June Rainfall (mm)</label>
+<input id="jun" type="number">
+
+<label>July Rainfall (mm)</label>
+<input id="jul" type="number">
+
+<label>August Rainfall (mm)</label>
+<input id="aug" type="number">
+
+<label>September Rainfall (mm)</label>
+<input id="sep" type="number">
+
+</div>
+
+<div class="section">
+
+<h3>Soil & Weather Inputs</h3>
+
+<label>Nitrogen (N)</label>
+<input id="n" type="number">
+
+<label>Phosphorus (P)</label>
+<input id="p" type="number">
+
+<label>Potassium (K)</label>
+<input id="k" type="number">
+
+<label>Temperature (°C)</label>
+<input id="temp" type="number">
+
+<label>Humidity (%)</label>
+<input id="humidity" type="number">
+
+<label>Soil pH</label>
+<input id="ph" type="number" step="0.1">
+
+<label>Expected Rainfall (mm)</label>
+<input id="rainfall" type="number">
+
+</div>
+
+<button onclick="predict()">Predict</button>
+
+<div class="result" id="result">
+
+<p><b>Annual Rainfall:</b> <span id="rainResult"></span></p>
+<p><b>Recommended Crop:</b> <span id="cropResult"></span></p>
+
+</div>
+
+</div>
+
+<script>
+
+function predict(){
+
+let rainInputs=[
+Number(document.getElementById("jun").value),
+Number(document.getElementById("jul").value),
+Number(document.getElementById("aug").value),
+Number(document.getElementById("sep").value)
+];
+
+let cropInputs=[
+Number(document.getElementById("n").value),
+Number(document.getElementById("p").value),
+Number(document.getElementById("k").value),
+Number(document.getElementById("temp").value),
+Number(document.getElementById("humidity").value),
+Number(document.getElementById("ph").value),
+Number(document.getElementById("rainfall").value)
+];
+
+fetch("http://127.0.0.1:5000/full_prediction",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+rain_inputs:rainInputs,
+crop_inputs:cropInputs
+})
+
+})
+
+.then(response=>response.json())
+
+.then(data=>{
+
+document.getElementById("result").style.display="block";
+
+document.getElementById("rainResult").innerText=data.rainfall.toFixed(2)+" mm";
+
+document.getElementById("cropResult").innerText=data.crop;
+
+})
+
+.catch(error=>{
+alert("Error connecting to API. Make sure Flask server is running.");
+});
+
+}
+
+</script>
+
+</body>
+</html>
