@@ -1,4 +1,4 @@
-from flask import request,jsonify
+from flask import request, jsonify
 import pandas as pd
 import os
 
@@ -8,51 +8,37 @@ from src.prediction.crop_predictor import recommend_crop
 
 def register_routes(app):
 
-    @app.route("/")
-    def home():
+    # ❌ DO NOT create "/" route here (important)
 
-        return "Smart Agro AI API Running Successfully 🚜🌾"
-
-
-    @app.route("/full_prediction",methods=["POST"])
+    @app.route("/full_prediction", methods=["POST"])
     def full_prediction():
 
-        data=request.json
+        data = request.json
 
-        rainfall=predict_rainfall(
-        data["rain_inputs"]
+        rainfall = predict_rainfall(
+            data["rain_inputs"]
         )
 
-        crop=recommend_crop(
-        data["crop_inputs"]
+        crop = recommend_crop(
+            data["crop_inputs"]
         )
 
         # save history
-        os.makedirs("outputs",exist_ok=True)
+        os.makedirs("outputs", exist_ok=True)
 
-        log=pd.DataFrame([{
-
-        "rainfall":rainfall,
-        "crop":crop,
-
+        log = pd.DataFrame([{
+            "rainfall": rainfall,
+            "crop": crop,
         }])
 
         log.to_csv(
-
-        "outputs/predictions_log.csv",
-
-        mode="a",
-
-        header=False,
-
-        index=False
-
+            "outputs/predictions_log.csv",
+            mode="a",
+            header=False,
+            index=False
         )
 
-
         return jsonify({
-
-        "rainfall":rainfall,
-        "crop":crop,
-
+            "rainfall": rainfall,
+            "crop": crop,
         })
