@@ -53,7 +53,7 @@ from src.prediction.crop_predictor import recommend_crop
 
 def register_routes(app):
 
-    @app.route("/api/full_prediction", methods=["POST"])
+    @app.route("/full_prediction", methods=["POST"])
     def full_prediction():
 
         data = request.json
