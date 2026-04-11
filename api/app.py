@@ -39,7 +39,7 @@ BASE_DIR = os.path.abspath(
 
 sys.path.append(BASE_DIR)
 
-from routes import register_routes
+from api.routes import register_routes
 
 # 👇 Tell Flask where frontend is
 app = Flask(__name__, static_folder="../frontend")
