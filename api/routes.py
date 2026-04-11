@@ -58,13 +58,13 @@ def register_routes(app):
 
         data = request.json
 
-        rainfall = predict_rainfall(
+        rainfall = float(predict_rainfall(
             data["rain_inputs"]
-        )
+        ))
 
-        crop = recommend_crop(
+        crop = str(recommend_crop(
             data["crop_inputs"]
-        )
+        ))
 
         # save history
         os.makedirs("outputs", exist_ok=True)
