@@ -13,7 +13,7 @@ An AI-powered smart agriculture assistant that predicts **annual rainfall** and 
 
 ---
 
-## 🧠 ML Models
+## ML Models
 
 ### Rainfall Prediction (Regression)
 Models evaluated on historical Indian rainfall data:
@@ -45,7 +45,7 @@ Models evaluated on soil & weather dataset:
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 SmartAgroAI/
@@ -104,7 +104,7 @@ SmartAgroAI/
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
